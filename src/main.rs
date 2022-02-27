@@ -3,12 +3,16 @@ use indicatif::{ProgressBar, ProgressStyle};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use std::env::current_dir;
-use std::fs::{read, write};
-use std::path::PathBuf;
+use std::{
+    env::current_dir,
+    fs::{read, write},
+    path::PathBuf,
+};
 
 static API_URL: &str = "https://gate.lagou.com/v1/entry/positionsearch/searchPosition/v2";
-static USER_AGENT: &str = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile Safari/537.36 Edg/98.0.1108.62";
+static USER_AGENT: &str = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) \
+                           AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Mobile \
+                           Safari/537.36 Edg/98.0.1108.62";
 static ORIGIN: &str = "https://m.lagou.com";
 static DEVICE_TYPE: &str = "{deviceType:1}";
 
@@ -23,7 +27,6 @@ struct Cli {
     output: PathBuf,
 }
 
-
 #[derive(Serialize, Deserialize, Clone)]
 struct Payload {
     city: Option<String>,
@@ -37,18 +40,18 @@ struct Payload {
     #[serde(default = "Payload::default_page_size", rename = "pageSize")]
     page_size: i32,
     #[serde(default = "Payload::default_pages", skip_serializing)]
-    pages: i32
+    pages: i32,
 }
 
 impl Payload {
     fn default_pages() -> i32 {
         10
     }
-    
+
     fn default_page_size() -> i32 {
         15
     }
-    
+
     fn default_salary_upper() -> i32 {
         1000000
     }
@@ -75,7 +78,6 @@ struct Job {
     #[serde(rename = "workYear")]
     work_year: String,
 }
-
 
 #[tokio::main]
 async fn main() {

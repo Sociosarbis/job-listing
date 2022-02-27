@@ -44,14 +44,12 @@ jobs:
             Cargo.lock
           key: cargo-dev--${{ matrix.settings.target }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            cargo-dev--${{ matrix.settings.target }}
+            cargo-dev--${{ matrix.settings.target }}}
 
       - name: Run cargo build
-        run: cargo build --release --target ${{ matrix.settings.target }}
+        run: cargo build --release --target ${{ matrix.settings.target }
 
       - uses: actions/upload-artifact@master
         with:
           name: job-listing-${{ matrix.settings.target }}
-          path: |
-            target/${{ matrix.settings.target }}/job-listing.exe
-            target/${{ matrix.settings.target }}/job-listing
+          path: target/${{ matrix.settings.target }}
