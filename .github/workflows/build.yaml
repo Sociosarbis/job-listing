@@ -47,7 +47,7 @@ jobs:
             cargo-dev--${{ matrix.settings.target }}}
 
       - name: Run cargo build
-        run: cargo build --release --target ${{ matrix.settings.target }
+        run: cargo build --release --target ${{ matrix.settings.target }}
 
       - uses: actions/upload-artifact@master
         with:
