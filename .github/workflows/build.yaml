@@ -1,0 +1,57 @@
+name: Build
+on: [push, pull_request]
+
+jobs:
+  fmt:
+    name: fmt
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          components: rustfmt
+      
+      - name: Run cargo fmt
+        run: cargo fmt --all -- --check
+  
+  build:
+    name: Build
+    runs-on: ${{ matrix.settings.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - host: windows-latest
+            target: x86_64-pc-windows-msvc
+    
+    steps:
+      - uses: actions/checkout@v2
+    
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            target
+            Cargo.lock
+          key: cargo-dev--${{ matrix.settings.target }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            cargo-dev--${{ matrix.settings.target }}
+
+      - name: Run cargo build
+        run: cargo build --release --target ${{ matrix.settings.target }}
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: job-listing-${{ matrix.settings.target }}
+          path: |
+            target/${{ matrix.settings.target }}/job-listing.exe
+            target/${{ matrix.settings.target }}/job-listing
