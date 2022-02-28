@@ -379,10 +379,20 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "indicatif",
+ "job-listing-core",
  "reqwest",
  "serde",
  "serde_json",
  "tokio",
+]
+
+[[package]]
+name = "job-listing-core"
+version = "0.1.0"
+dependencies = [
+ "reqwest",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
