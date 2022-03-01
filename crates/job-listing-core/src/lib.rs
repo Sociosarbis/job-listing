@@ -41,24 +41,28 @@ impl Payload {
 
 #[derive(Serialize, Deserialize)]
 pub struct Job {
-    district: String,
+    pub district: String,
     #[serde(rename = "businessZone")]
-    business_zone: Option<String>,
+    pub business_zone: Option<String>,
     #[serde(rename = "companyId")]
-    company_id: i32,
+    pub company_id: i32,
     #[serde(rename = "companyName")]
-    company_name: String,
+    pub company_name: String,
     #[serde(rename = "companySize")]
-    company_size: String,
+    pub company_size: String,
+    #[serde(rename = "companyLogo")]
+    pub company_logo: String,
     #[serde(rename = "industryField")]
-    industry_field: Option<String>,
+    pub industry_field: Option<String>,
     #[serde(rename = "positionName")]
-    position_name: String,
-    salary: String,
+    pub position_name: String,
+    #[serde(rename = "positionId")]
+    pub position_id: i32,
+    pub salary: String,
     #[serde(rename = "salaryMonth")]
-    salary_month: i32,
+    pub salary_month: i32,
     #[serde(rename = "workYear")]
-    work_year: String,
+    pub work_year: String,
 }
 
 pub enum StateType {
