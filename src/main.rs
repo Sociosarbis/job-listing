@@ -4,18 +4,17 @@ use job_listing_core::{fetch_job_list, Payload, StateType};
 use std::{
     env::current_dir,
     fs::{read, write},
-    path::PathBuf, str::FromStr
+    path::PathBuf,
+    str::FromStr,
 };
 
 mod render;
 
-
 use render::html;
-
 
 enum Format {
     JSON,
-    HTML
+    HTML,
 }
 
 impl FromStr for Format {
@@ -24,11 +23,10 @@ impl FromStr for Format {
         match s {
             "json" => Ok(Format::JSON),
             "html" => Ok(Format::HTML),
-            _ => Err("unknown format".to_string())
+            _ => Err("unknown format".to_string()),
         }
     }
 }
-
 
 #[derive(Parser)]
 struct Cli {
@@ -49,7 +47,7 @@ async fn main() {
         serde_json::from_str(&String::from_utf8(read(config_file_path).unwrap()).unwrap()).unwrap();
     let pages = payload.pages;
     let progress = ProgressBar::new(pages as u64);
-    
+
     progress.set_style(
         ProgressStyle::default_bar()
             .template("[{elapsed_precise}] [{bar:40.cyan/blue}] {pos:>7}/{len:7} {msg}")
@@ -76,10 +74,6 @@ async fn main() {
         Format::HTML => html::render(&ret),
         Format::JSON => serde_json::to_string_pretty(&ret).unwrap(),
     };
-    write(
-        current_dir().unwrap().join(cli.output),
-        output,
-    )
-    .expect("output failed");
+    write(current_dir().unwrap().join(cli.output), output).expect("output failed");
     progress.finish_with_message("has fetched successfully!");
 }

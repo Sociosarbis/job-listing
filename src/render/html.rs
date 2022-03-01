@@ -37,7 +37,7 @@ pub fn render(jobs: &Vec<Job>) -> String {
         .map(|i| {
             let job = &jobs[i];
             format!(
-                r#"<li class="card cr999"><a href="{}">{}</a><span class="green float-right">{}{}</span></div>
+                r#"<li class="card cr999"><a href="{}" target="_blank">{}</a><span class="green float-right">{}{}</span></div>
     <div class="cr666">{}{}{}</div>
     <div><img class="logo" src="{}" alt="" />
       <span class="d-inline-block">
